@@ -1,0 +1,41 @@
+
+entity Aluno {
+	nome String required,
+    email String required,
+    foto  ImageBlob,
+    dataNascimento LocalDate,
+    telefone String,
+    status StatusMatricula,
+}
+
+enum StatusMatricula{
+	ATIVO, SUSPENSO, CANCELADO, PREATIVO, ALUMNI
+}
+
+entity Curso {
+	nomeCurso String required,
+    descricaoCurso TextBlob,
+    dataCriacao LocalDate
+}
+
+
+entity Turma {
+	nomeTurma String,
+	dataCriacao LocalDate,
+    observacoes TextBlob
+}
+
+relationship ManyToMany{
+	Aluno{curso(nomeCurso)} to Curso{aluno(nome)}
+    Aluno{turma(nomeTurma)} to Turma{aluno(nome)}
+}
+
+relationship ManyToOne{
+	Turma{curso(nomeCurso)} to Curso
+}
+
+paginate Aluno with infinite-scroll
+paginate Cruso, Turma with pagination
+
+
+service all with serviceImpl
